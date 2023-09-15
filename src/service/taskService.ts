@@ -22,6 +22,42 @@ class TaskService {
       throw new Error("Erro ao buscar tarefas: " + error);
     }
   }
+
+  async updateTask(taskId: number, title: string) {
+    try {
+      // Verifique se a tarefa com o ID especificado existe
+      const existingTask = await TaskRepository.getTaskById(taskId);
+
+      if (!existingTask) {
+        return null; // Tarefa não encontrada
+      }
+
+      // Atualize a tarefa com o novo título
+      const updatedTask = await TaskRepository.updateTask(taskId, title);
+
+      return updatedTask;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteTask(taskId: number) {
+    try {
+      // Verifique se a tarefa com o ID especificado existe
+      const existingTask = await TaskRepository.getTaskById(taskId);
+
+      if (!existingTask) {
+        return null; // Tarefa não encontrada
+      }
+
+      // Exclua a tarefa
+      await TaskRepository.deleteTask(taskId);
+
+      return existingTask;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default new TaskService();

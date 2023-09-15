@@ -28,3 +28,46 @@ export async function getAllTasks(req: Request, res: Response) {
     return res.status(500).json({ error: "Erro ao buscar tarefas." });
   }
 }
+
+export async function updateTask(req: Request, res: Response) {
+  try {
+    const { taskId } = req.params;
+    const { title } = req.body;
+
+    if (!title || title.trim() === "") {
+      return res
+        .status(400)
+        .json({ error: "O título da tarefa é obrigatório." });
+    }
+
+    // Chame o método do serviço para atualizar a tarefa
+    const updatedTask = await TaskService.updateTask(Number(taskId), title);
+
+    if (!updatedTask) {
+      return res.status(404).json({ error: "Tarefa não encontrada." });
+    }
+
+    return res.status(200).json(updatedTask);
+  } catch (error) {
+    console.error("Erro ao atualizar a tarefa:", error);
+    return res.status(500).json({ error: "Erro ao atualizar a tarefa." });
+  }
+}
+
+export async function deleteTask(req: Request, res: Response) {
+  try {
+    const { taskId } = req.params;
+
+    // Chame o método do serviço para excluir a tarefa
+    const deletedTask = await TaskService.deleteTask(Number(taskId));
+
+    if (!deletedTask) {
+      return res.status(404).json({ error: "Tarefa não encontrada." });
+    }
+
+    return res.status(204).send(); // Resposta bem-sucedida sem conteúdo
+  } catch (error) {
+    console.error("Erro ao excluir a tarefa:", error);
+    return res.status(500).json({ error: "Erro ao excluir a tarefa." });
+  }
+}

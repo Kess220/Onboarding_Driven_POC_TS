@@ -1,11 +1,11 @@
 import { Pool } from "pg";
+import dotenv from "dotenv";
 
-const connectionString =
-  "postgresql://postgres:paodecarne@localhost:5432/poc_db";
+// Carregue as variáveis de ambiente do arquivo .env
+dotenv.config();
 
 const pool = new Pool({
-  connectionString: connectionString,
+  connectionString: process.env.DATABASE_URL,
 });
 
 export default pool;
-

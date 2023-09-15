@@ -1,0 +1,11 @@
+# Arquivos gerados pelo TypeScript
+dist/
+
+# Dependências instaladas
+node_modules/
+
+# Arquivos de log
+logs/
+
+# Arquivo .env (não inclua seu arquivo .env no repositório)
+.env
